@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirchen Kalender</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .filter-box {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .filter-box select {
+            padding: 10px;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+        }
+        .calendar div {
+            padding: 10px;
+            background-color: #e8f5e9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        .highlight {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+        .back-link, .admin-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .back-link a, .admin-link a {
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .details {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e8f5e9;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+        }
+        footer {
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            padding: 0.5rem 0;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Kirchen Kalender</h1>
+    </header>
+
+    <div class="container">
+        <h2>April 2025</h2>
+
+        <div class="filter-box">
+            <select id="filterKanton" onchange="filterEvents()">
+                <option value="">Alle Kantone</option>
+                <option value="St. Gallen">St. Gallen</option>
+                <option value="Zürich">Zürich</option>
+                <option value="Bern">Bern</option>
+                <option value="Luzern">Luzern</option>
+            </select>
+            <select id="filterTag" onchange="filterEvents()">
+                <option value="">Alle Wochentage</option>
+                <option value="Samstag">Samstag</option>
+                <option value="Sonntag">Sonntag</option>
+            </select>
+            <select id="filterZeit" onchange="filterEvents()">
+                <option value="">Alle Zeiten</option>
+                <option value="Vormittag">Vormittag</option>
+                <option value="Nachmittag">Nachmittag</option>
+                <option value="Abend">Abend</option>
+            </select>
+        </div>
+
+        <div class="calendar" id="calendar">
+            <div data-info="St. Gallen - Sonntag - Vormittag" class="highlight">4</div>
+            <div data-info="Zürich - Samstag - Abend" class="highlight">7</div>
+            <div data-info="Bern - Sonntag - Vormittag" class="highlight">16</div>
+            <div data-info="Luzern - Samstag - Nachmittag" class="highlight">22</div>
+        </div>
+
+        <div id="details" class="details"></div>
+
+        <div class="back-link">
+            <a href="index.html">⬅️ Zurück zur Startseite</a>
+        </div>
+
+        <div class="admin-link">
+            <a href="admin.html">🔧 Admin-Bereich</a>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Kirchen-Gottesdienst Koordination
+    </footer>
+
+    <script>
+        function filterEvents() {
+            const kantonFilter = document.getElementById('filterKanton').value.toLowerCase();
+            const tagFilter = document.getElementById('filterTag').value.toLowerCase();
+            const zeitFilter = document.getElementById('filterZeit').value.toLowerCase();
+            const events = document.querySelectorAll('.calendar div');
+
+            events.forEach(event => {
+                const info = event.getAttribute('data-info').toLowerCase();
+                if ((info.includes(kantonFilter) || kantonFilter === "") &&
+                    (info.includes(tagFilter) || tagFilter === "") &&
+                    (info.includes(zeitFilter) || zeitFilter === "")) {
+                    event.style.display = 'block';
+                } else {
+                    event.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
