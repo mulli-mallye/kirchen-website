@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kirche Schweiz – Startseite</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
     html {
       scroll-behavior: smooth;
@@ -43,11 +44,14 @@
     }
 
     .line {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
+      color: #f8bbd0;
       border-right: 2px solid #f8bbd0;
+      display: inline-block;
+      max-width: 90%;
       white-space: nowrap;
       overflow: hidden;
-      width: 0;
+      text-align: center;
       opacity: 0;
       transition: opacity 1s ease;
     }
@@ -86,6 +90,23 @@
     .fade.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* 📱 Mobilfreundlich */
+    @media (max-width: 480px) {
+      .line {
+        font-size: 1rem;
+        max-width: 95%;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      a.button {
+        font-size: 1rem;
+        padding: 12px;
+      }
     }
   </style>
 </head>
@@ -145,7 +166,7 @@
       });
     });
 
-    // Fade-in für Link-Bereich
+    // Fade-In beim Scrollen
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
