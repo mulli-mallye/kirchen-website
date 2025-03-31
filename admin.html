@@ -1,150 +1,158 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin-Bereich - Kirchen Website</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f2f5;
-            color: #333;
-        }
-        .container {
-            padding: 20px;
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        input, select, button {
-            padding: 10px;
-            border: 2px solid #4CAF50;
-            border-radius: 5px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-        }
-        .event-list {
-            margin-top: 20px;
-        }
-        .event-item {
-            background-color: #e8f5e9;
-            padding: 10px;
-            border: 2px solid #4CAF50;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        .delete-btn {
-            background-color: #f44336;
-            border: none;
-            padding: 5px 10px;
-            color: #fff;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .back-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .back-link a {
-            text-decoration: none;
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Bereich – Gottesdienst hinzufügen</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 30px;
+      text-align: center;
+    }
+    .form-container {
+      background-color: white;
+      padding: 25px;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+    input, select, button {
+      margin-top: 10px;
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #388e3c;
+    }
+    .back-link {
+      margin-top: 20px;
+    }
+    .logout-btn {
+      background-color: #e53935;
+      margin-top: 30px;
+    }
+  </style>
+
+  <!-- 🔐 Login-Schutz -->
+  <script>
+    if (localStorage.getItem("eingeloggt") !== "true") {
+      window.location.href = "login.html";
+    }
+  </script>
 </head>
 <body>
-    <div class="container">
-        <h1>Admin-Bereich</h1>
+  <div class="form-container">
+    <h3 id="welcomeText" style="color: #2e7d32; margin-bottom: 10px;"></h3>
+    <h2>➕ Gottesdienst hinzufügen</h2>
 
-        <form id="eventForm">
-            <input type="text" id="churchName" placeholder="Kirche/Ort" required>
-            <input type="date" id="eventDate" required>
-            <input type="time" id="eventTime" required>
-            <select id="eventKanton" required>
-                <option value="">Wähle einen Kanton</option>
-                <option value="St. Gallen">St. Gallen</option>
-                <option value="Zürich">Zürich</option>
-                <option value="Bern">Bern</option>
-                <option value="Luzern">Luzern</option>
-            </select>
-            <button type="button" onclick="addEvent()">Gottesdienst hinzufügen</button>
-        </form>
+    <form id="adminForm">
+      <select id="kanton" required>
+        <option value="">Kanton auswählen</option>
+        <option value="Aargau">Aargau</option>
+        <option value="Appenzell Ausserrhoden">Appenzell Ausserrhoden</option>
+        <option value="Appenzell Innerrhoden">Appenzell Innerrhoden</option>
+        <option value="Basel-Landschaft">Basel-Landschaft</option>
+        <option value="Basel-Stadt">Basel-Stadt</option>
+        <option value="Bern">Bern</option>
+        <option value="Freiburg">Freiburg</option>
+        <option value="Genf">Genf</option>
+        <option value="Glarus">Glarus</option>
+        <option value="Graubünden">Graubünden</option>
+        <option value="Jura">Jura</option>
+        <option value="Luzern">Luzern</option>
+        <option value="Neuenburg">Neuenburg</option>
+        <option value="Nidwalden">Nidwalden</option>
+        <option value="Obwalden">Obwalden</option>
+        <option value="Schaffhausen">Schaffhausen</option>
+        <option value="Schwyz">Schwyz</option>
+        <option value="Solothurn">Solothurn</option>
+        <option value="St. Gallen">St. Gallen</option>
+        <option value="Tessin">Tessin</option>
+        <option value="Thurgau">Thurgau</option>
+        <option value="Uri">Uri</option>
+        <option value="Waadt">Waadt</option>
+        <option value="Wallis">Wallis</option>
+        <option value="Zug">Zug</option>
+        <option value="Zürich">Zürich</option>
+      </select>
 
-        <div class="event-list" id="eventList"></div>
+      <input type="date" id="datumISO" required />
+      <input type="time" id="uhrzeit" required />
 
-        <div class="back-link">
-            <a href="index.html">⬅️ Zurück zur Startseite</a>
-        </div>
+      <select id="zeit">
+        <option value="vormittag">Vormittag</option>
+        <option value="nachmittag">Nachmittag</option>
+        <option value="abend">Abend</option>
+        <option value="ganztägig">Ganztägig</option>
+      </select>
+
+      <button type="submit">✅ Speichern</button>
+    </form>
+
+    <div class="back-link">
+      <a href="kalender.html">⬅️ Zurück zum Kalender</a>
     </div>
 
-    <script>
-        const events = JSON.parse(localStorage.getItem('events')) || [];
+    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+  </div>
 
-        function addEvent() {
-            const churchName = document.getElementById('churchName').value;
-            const eventDate = document.getElementById('eventDate').value;
-            const eventTime = document.getElementById('eventTime').value;
-            const eventKanton = document.getElementById('eventKanton').value;
+  <script>
+    // Kanton aus URL übernehmen
+    const params = new URLSearchParams(window.location.search);
+    const kantonAusURL = params.get("kanton");
+    if (kantonAusURL) {
+      document.getElementById("kanton").value = kantonAusURL;
+    }
 
-            if (churchName && eventDate && eventTime && eventKanton) {
-                const newEvent = {
-                    id: Date.now(),
-                    churchName,
-                    eventDate,
-                    eventTime,
-                    eventKanton
-                };
+    // Formular speichern
+    document.getElementById("adminForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const kanton = document.getElementById("kanton").value;
+      const datumISO = document.getElementById("datumISO").value;
+      const uhrzeit = document.getElementById("uhrzeit").value;
+      const zeit = document.getElementById("zeit").value;
+      const datum = new Date(datumISO).getDate();
 
-                events.push(newEvent);
-                localStorage.setItem('events', JSON.stringify(events));
-                displayEvents();
-            }
-        }
+      const neuerEintrag = {
+        datum,
+        ort: kanton,
+        datumISO,
+        zeit,
+        details: `📍 ${kanton} – ${datumISO} um ${uhrzeit}`
+      };
 
-        function displayEvents() {
-            const eventList = document.getElementById('eventList');
-            eventList.innerHTML = "";
+      const bestehend = JSON.parse(localStorage.getItem("gottesdienste")) || [];
+      bestehend.push(neuerEintrag);
+      localStorage.setItem("gottesdienste", JSON.stringify(bestehend));
 
-            events.forEach(event => {
-                const eventItem = document.createElement('div');
-                eventItem.classList.add('event-item');
-                eventItem.innerHTML = `
-                    <strong>${event.churchName}</strong><br>
-                    📅 ${event.eventDate} ⏰ ${event.eventTime} <br>
-                    📍 ${event.eventKanton} <br>
-                    <button class="delete-btn" onclick="deleteEvent(${event.id})">Löschen</button>
-                `;
-                eventList.appendChild(eventItem);
-            });
-        }
+      alert("✅ Gottesdienst gespeichert!");
+      document.getElementById("adminForm").reset();
+    });
 
-        function deleteEvent(id) {
-            const index = events.findIndex(event => event.id === id);
-            if (index !== -1) {
-                events.splice(index, 1);
-                localStorage.setItem('events', JSON.stringify(events));
-                displayEvents();
-            }
-        }
+    // Logout-Funktion
+    function logout() {
+      localStorage.removeItem("eingeloggt");
+      localStorage.removeItem("adminName");
+      window.location.href = "login.html";
+    }
 
-        window.onload = displayEvents;
-    </script>
+    // Begrüßung anzeigen
+    const name = localStorage.getItem("adminName");
+    if (name) {
+      document.getElementById("welcomeText").textContent = `👋 Willkommen, ${name.charAt(0).toUpperCase() + name.slice(1)}!`;
+    }
+  </script>
 </body>
 </html>
