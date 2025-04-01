@@ -25,13 +25,22 @@
     }
 
     section {
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 60px 20px;
+      padding: 40px 20px;
       text-align: center;
+    }
+
+    #start {
+      min-height: 100vh;
+    }
+
+    #links {
+      min-height: auto;
+      padding-top: 60px;
+      padding-bottom: 80px;
     }
 
     .logo {
@@ -67,7 +76,7 @@
       border-radius: 10px;
       font-size: 1.2rem;
       font-weight: 600;
-      margin: 12px 0;
+      margin: 20px 0;
       text-decoration: none;
       transition: all 0.3s ease;
     }
@@ -112,20 +121,19 @@
 </head>
 <body>
 
-  <!-- ⛪ Begrüßung -->
+  <!-- Begrüßung -->
   <section id="start">
-    <img src="images/logo.png" alt="Logo" class="logo" />
+    <img src="images/ChatGPT Image 1. Apr. 2025, 01_25_51.png" alt="Logo" class="logo" />
     <h1>Kirche Schweiz</h1>
 
     <div id="line1" class="line"></div>
     <div id="line2" class="line"></div>
     <div id="line3" class="line"></div>
 
-    <br><br>
     <a href="#links" class="button">🔽 Weiter zu den Links</a>
   </section>
 
-  <!-- 📎 Navigation -->
+  <!-- Links unten -->
   <section id="links">
     <div class="nav-links fade">
       <a href="kalender.html" class="button">📅 Zum Kalender</a>
@@ -159,14 +167,14 @@
       setTimeout(tippe, delay);
     }
 
-    // Animation starten
+    // Starte Tipper-Animation
     tippeZeile(zeilen[0].text, document.getElementById(zeilen[0].elementId), 0, () => {
       tippeZeile(zeilen[1].text, document.getElementById(zeilen[1].elementId), 300, () => {
         tippeZeile(zeilen[2].text, document.getElementById(zeilen[2].elementId), 300);
       });
     });
 
-    // Scroll-Fade-Effekt aktivieren
+    // Scroll-Fade aktivieren
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
