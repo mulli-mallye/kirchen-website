@@ -4,288 +4,37 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kirche Schweiz – Startseite</title>
+
+  <!-- 🌐 Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-      scroll-behavior: smooth;
-    }
 
-    body {
-      background-color: #1a0c1f;
-      color: #fce4ec;
-      transition: background 0.3s, color 0.3s;
-    }
-
-    body.light {
-      background-color: #fdfdfd;
-      color: #222;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: auto;
-      padding: 40px 20px;
-      text-align: center;
-    }
-
-    .logo {
-      width: 120px;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 10px;
-      color: #ffd54f;
-    }
-
-    .lang-select {
-      text-align: right;
-      font-size: 0.9rem;
-      margin-bottom: 10px;
-    }
-
-    .lang-select button {
-      background: none;
-      border: none;
-      color: #ffd54f;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-left: 5px;
-    }
-
-    .lang-select button:hover {
-      text-decoration: underline;
-    }
-
-    .welcome {
-      font-size: 1.3rem;
-      margin: 25px 0;
-      color: #f8bbd0;
-    }
-
-    .button-links a {
-      display: block;
-      background: #4a0033;
-      padding: 14px;
-      margin: 10px auto;
-      text-decoration: none;
-      border-radius: 8px;
-      color: #fff;
-      font-weight: bold;
-      max-width: 340px;
-      transition: background 0.3s;
-    }
-
-    .button-links a:hover {
-      background: #880e4f;
-    }
-
-    body.light .button-links a {
-      background: #ddd;
-      color: #000;
-    }
-
-    /* 🌗 Hell-Dunkel Button */
-    .mode-toggle {
-      margin: 20px 0;
-    }
-
-    .toggle-switch {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1rem;
-      color: #ffd54f;
-    }
-
-    .toggle-switch input {
-      display: none;
-    }
-
-    .toggle-slider {
-      width: 50px;
-      height: 26px;
-      background-color: #888;
-      border-radius: 15px;
-      position: relative;
-      transition: background 0.3s;
-    }
-
-    .toggle-slider::before {
-      content: "";
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 20px;
-      height: 20px;
-      background-color: white;
-      border-radius: 50%;
-      transition: transform 0.3s;
-    }
-
-    input:checked + .toggle-slider::before {
-      transform: translateX(24px);
-    }
-
-    input:checked + .toggle-slider {
-      background-color: #4CAF50;
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 40px;
-      padding: 20px 0;
-      border-top: 1px solid #555;
-      font-size: 0.9rem;
-      color: #bbb;
-    }
-
-    .preview {
-      margin-top: 30px;
-      text-align: left;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 20px;
-      border-radius: 10px;
-    }
-
-    .preview h3 {
-      margin-bottom: 10px;
-      color: #ffd54f;
-    }
-
-    @media (max-width: 500px) {
-      .welcome { font-size: 1.1rem; }
-      h1 { font-size: 1.5rem; }
-      .logo { width: 100px; }
-    }
-  </style>
+  <!-- 🎨 Zentrales CSS -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div class="container">
     <!-- 🌍 Sprachumschalter -->
     <div class="lang-select">
-      Sprache:
+      <span>🌐 Sprache:</span>
       <button onclick="setLanguage('de')">🇩🇪</button>
       <button onclick="setLanguage('en')">🇬🇧</button>
       <button onclick="setLanguage('ti')">ትግርኛ</button>
       <button onclick="setLanguage('am')">አማርኛ</button>
     </div>
 
-    <!-- 📷 Logo -->
-    <img src="images/logo.png" alt="Logo Kirche Schweiz" class="logo">
-
+    <!-- 🔠 Begrüßung -->
     <h1>Kirche Schweiz</h1>
-    <div class="welcome" id="welcomeText">Willkommen auf unserer Website</div>
-
-    <!-- 🌗 Darkmode -->
-    <div class="mode-toggle">
-      <label class="toggle-switch">
-        <input type="checkbox" id="darkToggle" onchange="toggleMode()" />
-        <span class="toggle-slider"></span> 🌙 / ☀️
-      </label>
-    </div>
+    <div id="welcomeText">Willkommen auf unserer Website</div>
 
     <!-- 🔗 Links -->
     <div class="button-links">
       <a href="kalender.html" id="calendarLink">📅 Zum Kalender</a>
       <a href="admin.html" id="adminLink">🔧 Admin-Bereich</a>
       <a href="kalender.html#reminderForm" id="reminderLink">🔔 Erinnerung erhalten</a>
-      <a href="alle-termine.html" id="alleTermineLink">📋 Alle Termine anzeigen</a>
-    </div>
-
-    <!-- 📋 Vorschau -->
-    <div class="preview" id="previewArea">
-      <h3>⏳ Nächste Gottesdienste:</h3>
-      <div id="termineVorschau">Keine Termine gespeichert.</div>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-      &copy; 2025 Kirche Schweiz | Alle Rechte vorbehalten
     </div>
   </div>
 
-  <!-- 🔤 Sprache & Logik -->
-  <script>
-    const translations = {
-      de: {
-        welcome: "Willkommen auf unserer Website",
-        calendar: "📅 Zum Kalender",
-        admin: "🔧 Admin-Bereich",
-        reminder: "🔔 Erinnerung erhalten",
-        alle: "📋 Alle Termine anzeigen"
-      },
-      en: {
-        welcome: "Welcome to our website",
-        calendar: "📅 Go to calendar",
-        admin: "🔧 Admin area",
-        reminder: "🔔 Get a reminder",
-        alle: "📋 View all appointments"
-      },
-      ti: {
-        welcome: "እንቋዕ ብደሓን መፃእኩም ኣብ ድሕረ ገፅና",
-        calendar: "📅 ናብ ካለንደር ምምዝጋብ",
-        admin: "🔧 ኣብ ኣድሚን ክፍሊ ኩተል",
-        reminder: "🔔 ሓደጋ ውሰድ",
-        alle: "📋 ኩሉ ቀጻሊ ምልክታት"
-      },
-      am: {
-        welcome: "እንኳን ወደ ድህረ ገፃችን በደህና መጡ",
-        calendar: "📅 ወደ መቁጠሪያ ቀን",
-        admin: "🔧 የአድሚን ክፍል",
-        reminder: "🔔 አስታዋሽ ያግኙ",
-        alle: "📋 ሁሉንም ቀጠሮዎች አሳይ"
-      }
-    };
-
-    function setLanguage(lang) {
-      localStorage.setItem("lang", lang);
-      applyLanguage(lang);
-    }
-
-    function applyLanguage(lang) {
-      const t = translations[lang] || translations.de;
-      document.getElementById("welcomeText").textContent = t.welcome;
-      document.getElementById("calendarLink").textContent = t.calendar;
-      document.getElementById("adminLink").textContent = t.admin;
-      document.getElementById("reminderLink").textContent = t.reminder;
-      document.getElementById("alleTermineLink").textContent = t.alle;
-    }
-
-    const gespeicherteSprache = localStorage.getItem("lang") || "de";
-    applyLanguage(gespeicherteSprache);
-
-    // 🌗 Theme Toggle
-    function toggleMode() {
-      document.body.classList.toggle("light");
-    }
-
-    // 📅 Vorschau
-    function ladeVorschau() {
-      const termine = JSON.parse(localStorage.getItem("gottesdienste")) || [];
-      const upcoming = termine
-        .filter(e => new Date(e.datumISO) >= new Date())
-        .sort((a, b) => new Date(a.datumISO) - new Date(b.datumISO))
-        .slice(0, 3);
-
-      const box = document.getElementById("termineVorschau");
-      if (upcoming.length === 0) {
-        box.textContent = "Keine Termine gespeichert.";
-      } else {
-        box.innerHTML = upcoming.map(e =>
-          `📍 <strong>${e.ort}</strong> – ${e.datumISO} (${e.zeit})`
-        ).join("<br><br>");
-      }
-    }
-
-    ladeVorschau();
-  </script>
+  <!-- 📜 Zentrales JavaScript -->
+  <script src="javascript/main.js" defer></script>
 </body>
 </html>
