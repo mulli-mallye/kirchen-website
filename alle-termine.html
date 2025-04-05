@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alle Gottesdienste – Kirche Schweiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #1a0c1f, #2a0033);
+      color: #fce4ec;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 60px auto;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #ffd54f;
+    }
+
+    .top-controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .top-controls input {
+      padding: 10px;
+      width: 100%;
+      max-width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .top-controls button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .top-controls button:hover {
+      background-color: #388e3c;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #666;
+    }
+
+    th {
+      background-color: #4a0033;
+      color: #fce4ec;
+    }
+
+    tr:hover {
+      background-color: rgba(255, 255, 255, 0.07);
+    }
+
+    .zurueck {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .zurueck a {
+      color: #ffd54f;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      border: 2px solid #ffd54f;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+
+    .zurueck a:hover {
+      background-color: #ffd54f;
+      color: #2a0033;
+    }
+
+    @media (max-width: 600px) {
+      .top-controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📋 Alle geplanten Gottesdienste</h1>
+
+    <!-- 🔎 Suche + 🖨️ Drucken -->
+    <div class="top-controls">
+      <input type="text" id="suche" placeholder="🔍 Suche nach Ort oder Datum..." oninput="filterTabelle()" />
+      <button onclick="window.print()">🖨️ Drucken</button>
+    </div>
+
+    <div id="tabelle"></div>
+
+    <div class="zurueck">
+      <a href="index.html">⬅️ Zurück zur Startseite</a>
+    </div>
+  </div>
+
+  <script>
+    const gespeicherte = JSON.parse(localStorage.getItem("gottesdienste")) || [];
+    const sortiert = gespeicherte.sort((a, b) => new Date(a.datumISO) - new Date(b.datumISO));
+    let aktuelleDaten = sortiert;
+
+    const tabelle = document.getElementById("tabelle");
+
+    function renderTabelle(daten) {
+      if (daten.length === 0) {
+        tabelle.innerHTML = "<p>🚫 Keine passenden Gottesdienste gefunden.</p>";
+        return;
+      }
+
+      let html = `
+        <table>
+          <thead>
+            <tr>
+              <th>📅 Datum</th>
+              <th>🕒 Uhrzeit</th>
+              <th>📍 Ort</th>
+              <th>📌 Zeitbereich</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      daten.forEach(evt => {
+        html += `
+          <tr>
+            <td>${evt.datumISO}</td>
+            <td>${evt.zeit === "ganztägig" ? "Ganztägig" : (evt.uhrzeit || "–")}</td>
+            <td>${evt.ort}</td>
+            <td>${evt.zeit}</td>
+          </tr>
+        `;
+      });
+
+      html += "</tbody></table>";
+      tabelle.innerHTML = html;
+    }
+
+    function filterTabelle() {
+      const query = document.getElementById("suche").value.toLowerCase();
+      const gefiltert = aktuelleDaten.filter(evt =>
+        evt.ort.toLowerCase().includes(query) ||
+        evt.datumISO.includes(query)
+      );
+      renderTabelle(gefiltert);
+    }
+
+    // Beim Laden direkt anzeigen
+    renderTabelle(aktuelleDaten);
+  </script>
+</body>
+</html>

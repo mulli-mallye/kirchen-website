@@ -1,93 +1,63 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gottesdienste</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f2f5;
-            color: #333;
-        }
-        header {
-            background-color: #0ee516;
-            color: white;
-            text-align: center;
-            padding: 1rem 0;
-        }
-        .container {
-            padding: 20px;
-            max-width: 800px;
-            margin: 20px auto;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        h1, h2 {
-            text-align: center;
-        }
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            text-align: center;
-        }
-        .calendar div {
-            padding: 10px;
-            background-color: #e8f5e9;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .highlight {
-            background-color: #4CAF50;
-            color: #fff;
-        }
-        .nav-link {
-            text-align: center;
-            margin-top: 10px;
-        }
-        .nav-link a {
-            text-decoration: none;
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-        }
-        footer {
-            text-align: center;
-            background-color: #4CAF50;
-            color: white;
-            padding: 0.5rem 0;
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kirche Schweiz – Startseite</title>
+
+  <!-- 🌐 Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- 🎨 Zentrales CSS -->
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-    <header>
-        <h1>Gottesdienste</h1>
-    </header>
-
-    <div class="container">
-        <h2>Willkommen!</h2>
-        <p>Hier finden Sie die aktuellen Gottesdienste in verschiedenen Kantonen.</p>
-        
-        <div class="nav-link">
-            <a href="kalender.html">➡️ Kalenderseite anzeigen</a>
-        </div>
-
-        <h2>Nächste Gottesdienste</h2>
-        <ul class="service-list">
-            <li class="service-item">St. Gallen - Sonntag, 07. April um 10:00 Uhr</li>
-            <li class="service-item">Zürich - Samstag, 13. April um 18:00 Uhr</li>
-            <li class="service-item">Bern - Sonntag, 21. April um 09:30 Uhr</li>
-        </ul>
+  <div class="container">
+    <!-- 🌍 Sprachumschalter -->
+    <div class="lang-select">
+      Sprache:
+      <button onclick="setLanguage('de')">🇩🇪</button>
+      <button onclick="setLanguage('en')">🇬🇧</button>
+      <button onclick="setLanguage('ti')">ትግርኛ</button>
+      <button onclick="setLanguage('am')">አማርኛ</button>
     </div>
 
+    <!-- 📷 Logo -->
+    <img src="images/logo.png" alt="Logo" class="logo" />
+
+    <!-- 🔠 Titel -->
+    <h1>Kirche Schweiz</h1>
+    <p id="welcomeText">Willkommen auf unserer Website</p>
+
+    <!-- 🌗 Darkmode -->
+    <div class="mode-toggle">
+      <label class="toggle-switch">
+        <input type="checkbox" id="darkToggle" onchange="toggleMode()" />
+        <span class="slider"></span> 🌙 / ☀️
+      </label>
+    </div>
+
+    <!-- 🔗 Buttons -->
+    <div class="button-links">
+      <a href="kalender.html" id="calendarLink">📅 Zum Kalender</a>
+      <a href="admin.html" id="adminLink">🔧 Admin-Bereich</a>
+      <a href="kalender.html#reminderForm" id="reminderLink">🔔 Erinnerung erhalten</a>
+      <a href="alle-termine.html" id="alleLink">📋 Alle Termine anzeigen</a>
+    </div>
+
+    <!-- ⏳ Vorschau -->
+    <div class="preview">
+      <h3>⏳ Nächste Gottesdienste:</h3>
+      <div id="termineVorschau">Keine Termine gespeichert.</div>
+    </div>
+
+    <!-- 📩 Footer -->
     <footer>
-        &copy; 2025 Kirchen-Gottesdienst Koordination
+      &copy; 2025 Kirche Schweiz | Alle Rechte vorbehalten
     </footer>
+  </div>
+
+  <!-- 📜 Zentrales JavaScript -->
+  <script src="javascript/main.js"></script>
 </body>
 </html>

@@ -1,316 +1,79 @@
 <!DOCTYPE html>
 <html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kirchen Kalender</title>
-    <style>
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        font-family: "Segoe UI", sans-serif;
-        margin: 0;
-        padding: 0;
-        background: linear-gradient(to right, #f4f7f9, #e8f0fe);
-        color: #333;
-      }
-      .container {
-        max-width: 900px;
-        margin: auto;
-        padding: 20px;
-        background-color: white;
-        border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        margin-top: 30px;
-      }
-      h1,
-      h3 {
-        text-align: center;
-        color: #2e7d32;
-      }
-      .filter {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-        margin-bottom: 20px;
-      }
-      select,
-      input[type="email"],
-      button {
-        padding: 10px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        font-size: 1rem;
-        width: 200px;
-      }
-      button {
-        background-color: #4caf50;
-        color: white;
-        border: none;
-        transition: background 0.3s ease;
-      }
-      button:hover {
-        background-color: #388e3c;
-      }
-      .calendar {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-        gap: 8px;
-        margin: 20px 0;
-      }
-      .calendar div {
-        padding: 10px;
-        background-color: #dcedc8;
-        border-radius: 8px;
-        text-align: center;
-        cursor: pointer;
-        transition: background 0.2s ease;
-      }
-      .calendar div:hover {
-        background-color: #8481d5;
-      }
-      .highlight {
-        background-color: #bb6690 !important;
-        color: white;
-        font-weight: bold;
-      }
-      .details {
-        margin-top: 15px;
-        padding: 15px;
-        background-color: #f1f8e9;
-        border: 2px solid #c5e1a5;
-        border-radius: 8px;
-      }
-      .email-form {
-        margin-top: 30px;
-        text-align: center;
-      }
-      .message {
-        color: green;
-        font-weight: bold;
-        margin-top: 10px;
-      }
-      .footer-links {
-        text-align: center;
-        margin-top: 30px;
-      }
-      .footer-links a {
-        margin: 0 10px;
-        color: #388e3c;
-        text-decoration: none;
-        font-weight: bold;
-      }
-      @media (max-width: 600px) {
-        .filter {
-          flex-direction: column;
-          align-items: center;
-        }
-        select,
-        input[type="email"],
-        button {
-          width: 100%;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>📅 Kirchen Kalender</h1>
-
-      <!-- 🔍 Filterbereich -->
-      <div class="filter">
-        <select id="kircheFilter" onchange="filterGottesdienste()">
-          <option value="alle">Alle Kantone</option>
-          <option value="Aargau">Aargau</option>
-          <option value="Appenzell Ausserrhoden">Appenzell Ausserrhoden</option>
-          <option value="Appenzell Innerrhoden">Appenzell Innerrhoden</option>
-          <option value="Basel-Landschaft">Basel-Landschaft</option>
-          <option value="Basel-Stadt">Basel-Stadt</option>
-          <option value="Bern">Bern</option>
-          <option value="Freiburg">Freiburg</option>
-          <option value="Genf">Genf</option>
-          <option value="Glarus">Glarus</option>
-          <option value="Graubünden">Graubünden</option>
-          <option value="Jura">Jura</option>
-          <option value="Luzern">Luzern</option>
-          <option value="Neuenburg">Neuenburg</option>
-          <option value="Nidwalden">Nidwalden</option>
-          <option value="Obwalden">Obwalden</option>
-          <option value="Schaffhausen">Schaffhausen</option>
-          <option value="Schwyz">Schwyz</option>
-          <option value="Solothurn">Solothurn</option>
-          <option value="St. Gallen">St. Gallen</option>
-          <option value="Tessin">Tessin</option>
-          <option value="Thurgau">Thurgau</option>
-          <option value="Uri">Uri</option>
-          <option value="Waadt">Waadt</option>
-          <option value="Wallis">Wallis</option>
-          <option value="Zug">Zug</option>
-          <option value="Zürich">Zürich</option>
-        </select>
-
-        <select id="zeitFilter" onchange="filterGottesdienste()">
-          <option value="alle">Alle Zeiten</option>
-          <option value="vormittag">Vormittag (06–12)</option>
-          <option value="nachmittag">Nachmittag (12–18)</option>
-          <option value="abend">Abend (18–24)</option>
-        </select>
-      </div>
-
-      <!-- 📆 Kalender -->
-      <div class="calendar" id="calendar"></div>
-
-      <!-- 📄 Gottesdienstdetails -->
-      <div id="details" class="details" style="display: none"></div>
-
-      <!-- 📧 Erinnerungs-Formular -->
-      <div class="email-form">
-        <h3>🔔 Erinnerung erhalten</h3>
-        <form id="reminderForm">
-          <input
-            type="email"
-            id="email"
-            placeholder="Deine E-Mail-Adresse"
-            required
-          />
-          <select id="reminderTime">
-            <option value="1">1 Tag vorher</option>
-            <option value="3">3 Tage vorher</option>
-            <option value="7">1 Woche vorher</option>
-          </select>
-          <button type="submit">Erinnerung speichern</button>
-        </form>
-        <div id="successMessage" class="message" style="display: none"></div>
-      </div>
-
-      <!-- 🔗 Navigation -->
-      <div class="footer-links">
-        <a href="index.html">🏠 Startseite</a>
-        <a href="admin.html">🔧 Admin-Bereich</a>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kirchen Kalender</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Sprachumschalter -->
+    <div class="lang-select">
+      Sprache:
+      <button onclick="setLanguage('de')">🇩🇪</button>
+      <button onclick="setLanguage('en')">🇬🇧</button>
+      <button onclick="setLanguage('ti')">ትግርኛ</button>
+      <button onclick="setLanguage('am')">አማርኛ</button>
     </div>
 
-    <script>
-      let aktuellerKanton = "alle"; // global gespeichert
-      let gottesdienste = [
-        //{ datum: '4', ort: 'St. Gallen', details: '📍 St. Gallen – 4. April um 10:00 Uhr', zeit: 'vormittag', datumISO: '2025-04-04' },
-        //{ datum: '16', ort: 'Bern', details: '📍 Bern – 16. April um 09:30 Uhr', zeit: 'vormittag', datumISO: '2025-04-16' },
-        //{ datum: '22', ort: 'Luzern', details: '📍 Luzern – 22. April um 17:00 Uhr', zeit: 'nachmittag', datumISO: '2025-04-22' }
-      ];
+    <!-- Logo & Titel -->
+    <img src="images/logo.png" alt="Logo" class="logo" />
+    <h1 id="headline">📅 Kirchen Kalender</h1>
 
-      // LocalStorage ergänzen
-      const gespeicherte =
-        JSON.parse(localStorage.getItem("gottesdienste")) || [];
-      gottesdienste = [...gottesdienste, ...gespeicherte];
+    <!-- Darkmode -->
+    <div class="mode-toggle">
+      <label class="toggle-switch">
+        <input type="checkbox" id="darkToggle" onchange="toggleMode()" />
+        <span class="toggle-slider"></span> 🌙 / ☀️
+      </label>
+    </div>
 
-      let ausgewählterGottesdienst = null;
+    <!-- Filter -->
+    <div class="filter">
+      <select id="kircheFilter" onchange="filterGottesdienste()"></select>
+      <select id="zeitFilter" onchange="filterGottesdienste()">
+        <option value="alle">🔄 Alle Zeiten</option>
+        <option value="vormittag">🌞 Vormittag</option>
+        <option value="nachmittag">🌤️ Nachmittag</option>
+        <option value="abend">🌙 Abend</option>
+      </select>
+    </div>
 
-      function renderCalendar(filteredData = gottesdienste) {
-        const calendarDiv = document.getElementById("calendar");
-        calendarDiv.innerHTML = "";
+    <!-- Kalender -->
+    <div class="calendar" id="calendar"></div>
 
-        if (filteredData.length === 0) {
-          calendarDiv.innerHTML = `
-          <div style="grid-column: 1 / -1; padding: 15px; color: #777;">
-            ⚠️ In diesem Kanton sind derzeit keine Gottesdienste geplant.<br><br>
-            <a href="admin.html?kanton=${encodeURIComponent(aktuellerKanton)}"
-               style="display: inline-block; margin-top: 10px; background-color: #4CAF50; color: white; padding: 10px 15px; border-radius: 6px; text-decoration: none;">
-              ➕ Jetzt Gottesdienst für ${aktuellerKanton} hinzufügen
-            </a>
-          </div>`;
-          return;
-        }
+    <!-- Details -->
+    <div id="details" class="details" style="display:none;"></div>
 
-        filteredData.forEach((event) => {
-          const dayDiv = document.createElement("div");
-          dayDiv.classList.add("highlight");
-          dayDiv.innerText = event.datum;
-          dayDiv.onclick = () =>
-            showDetails(event.details, event.datumISO, event.ort, event.zeit);
-          calendarDiv.appendChild(dayDiv);
-        });
-      }
+    <!-- Erinnerung -->
+    <div class="email-form">
+      <h3>🔔 Erinnerung erhalten</h3>
+      <form id="reminderForm">
+        <input type="email" id="email" placeholder="Deine E-Mail-Adresse" required />
+        <select id="reminderTime">
+          <option value="1">1 Tag vorher</option>
+          <option value="3">3 Tage vorher</option>
+          <option value="7">1 Woche vorher</option>
+        </select>
+        <button type="submit">Erinnerung speichern</button>
+      </form>
+      <div id="successMessage" class="message" style="display:none;"></div>
+    </div>
 
-      function filterGottesdienste() {
-        aktuellerKanton = document.getElementById("kircheFilter").value;
-        const zeit = document.getElementById("zeitFilter").value;
+    <!-- Navigation -->
+    <div class="footer-links">
+      <a href="index.html">🏠 Startseite</a>
+      <a href="admin.html">🛠️ Admin-Bereich</a>
+      <a href="alle-termine.html">📋 Alle Termine</a>
+    </div>
 
-        let gefiltert = gottesdienste;
+    <!-- Footer -->
+    <div class="footer">
+      &copy; 2025 Kirche Schweiz | Alle Rechte vorbehalten
+    </div>
+  </div>
 
-        if (aktuellerKanton !== "alle") {
-          gefiltert = gefiltert.filter(
-            (event) => event.ort === aktuellerKanton
-          );
-        }
-
-        if (zeit !== "alle") {
-          gefiltert = gefiltert.filter((event) => event.zeit === zeit);
-        }
-
-        renderCalendar(gefiltert);
-      }
-
-      function showDetails(details, datumISO, ort, zeit) {
-        const box = document.getElementById("details");
-        box.innerHTML = `
-        ${details}<br><br>
-        <button onclick="deleteGottesdienst('${datumISO}', '${ort}', '${zeit}')" style="background-color:#e53935; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer;">
-          🗑️ Löschen
-        </button>
-      `;
-        box.style.display = "block";
-        ausgewählterGottesdienst = { details, datum: datumISO };
-      }
-
-      function deleteGottesdienst(datumISO, ort, zeit) {
-        const bestätigen = confirm(
-          `Möchtest du den Gottesdienst in ${ort} am ${datumISO} wirklich löschen?`
-        );
-        if (!bestätigen) return;
-
-        const gespeichert =
-          JSON.parse(localStorage.getItem("gottesdienste")) || [];
-
-        const gefiltert = gespeichert.filter(
-          (e) => !(e.datumISO === datumISO && e.ort === ort && e.zeit === zeit)
-        );
-
-        localStorage.setItem("gottesdienste", JSON.stringify(gefiltert));
-        alert("🗑️ Gottesdienst wurde gelöscht!");
-        location.reload();
-      }
-
-      // E-Mail-Formular
-      document
-        .getElementById("reminderForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-
-          if (!ausgewählterGottesdienst) {
-            alert("Bitte zuerst einen Gottesdienst im Kalender anklicken.");
-            return;
-          }
-
-          const email = document.getElementById("email").value;
-          const tageVorher = parseInt(
-            document.getElementById("reminderTime").value
-          );
-          const termin = new Date(ausgewählterGottesdienst.datum);
-          const erinnerung = new Date(termin);
-          erinnerung.setDate(termin.getDate() - tageVorher);
-
-          const output = `
-        📩 E-Mail: ${email}<br>
-        📅 Gottesdienst am: ${termin.toDateString()}<br>
-        ⏰ Erinnerung wird geschickt am: <strong>${erinnerung.toDateString()}</strong>
-      `;
-          document.getElementById("successMessage").innerHTML = output;
-          document.getElementById("successMessage").style.display = "block";
-        });
-
-      renderCalendar();
-    </script>
-  </body>
+  <script src="javascript/main.js" defer></script>
+</body>
 </html>
