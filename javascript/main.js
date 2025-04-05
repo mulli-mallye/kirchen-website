@@ -1,27 +1,29 @@
+
+// 🌐 Mehrsprachigkeit
 const translations = {
   de: {
     welcome: "Willkommen auf unserer Website",
     calendar: "📅 Zum Kalender",
     admin: "🔧 Admin-Bereich",
-    reminder: "🔔 Erinnerung erhalten"
+    reminder: "🔔 Erinnerung erhalten",
   },
   en: {
     welcome: "Welcome to our website",
     calendar: "📅 Go to calendar",
     admin: "🔧 Admin area",
-    reminder: "🔔 Get a reminder"
+    reminder: "🔔 Get a reminder",
   },
   ti: {
     welcome: "እንቋዕ ብደሓን መፃእኩም ኣብ ድሕረ ገፅና",
     calendar: "📅 ወደ ካለንደር ኣቐምጡ",
     admin: "🔧 ኣብ ኣድሚን ክፍሊ ኩተል",
-    reminder: "🔔 ሓደጋ ውሰድ"
+    reminder: "🔔 ሓደጋ ውሰድ",
   },
   am: {
     welcome: "እንኳን ወደ ድህረ ገፃችን በደህና መጡ",
     calendar: "📅 ወደ ቀን መቁጠሪያ",
     admin: "🔧 የአድሚን ክፍል",
-    reminder: "🔔 አስታዋሽ ያግኙ"
+    reminder: "🔔 አስታዋሽ ያግኙ",
   }
 };
 
@@ -41,4 +43,15 @@ function applyLanguage(lang) {
 window.addEventListener("DOMContentLoaded", () => {
   const gespeicherteSprache = localStorage.getItem("lang") || "de";
   applyLanguage(gespeicherteSprache);
+
+  const mode = localStorage.getItem("darkmode");
+  if (mode === "light") {
+    document.body.classList.add("light");
+  }
 });
+
+// 🌗 Darkmode Umschalter
+function toggleDarkMode() {
+  document.body.classList.toggle("light");
+  localStorage.setItem("darkmode", document.body.classList.contains("light") ? "light" : "dark");
+}
