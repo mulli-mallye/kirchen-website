@@ -5,36 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kirche Schweiz – Startseite</title>
 
-  <!-- 🌐 Google Fonts -->
+  <!-- 🌐 Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
   <!-- 🎨 Zentrales CSS -->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   <div class="container">
     <!-- 🌍 Sprachumschalter -->
     <div class="lang-select">
-      <span>🌐 Sprache:</span>
+      Sprache:
       <button onclick="setLanguage('de')">🇩🇪</button>
       <button onclick="setLanguage('en')">🇬🇧</button>
       <button onclick="setLanguage('ti')">ትግርኛ</button>
       <button onclick="setLanguage('am')">አማርኛ</button>
     </div>
 
-    <!-- 🔠 Begrüßung -->
-    <h1>Kirche Schweiz</h1>
-    <div id="welcomeText">Willkommen auf unserer Website</div>
+    <!-- 📷 Logo -->
+    <img src="images/logo.png" alt="Logo" class="logo" />
 
-    <!-- 🔗 Links -->
+    <!-- 🔠 Titel -->
+    <h1>Kirche Schweiz</h1>
+    <p id="welcomeText">Willkommen auf unserer Website</p>
+
+    <!-- 🌗 Darkmode -->
+    <div class="mode-toggle">
+      <label class="toggle-switch">
+        <input type="checkbox" id="darkToggle" onchange="toggleMode()" />
+        <span class="slider"></span> 🌙 / ☀️
+      </label>
+    </div>
+
+    <!-- 🔗 Buttons -->
     <div class="button-links">
       <a href="kalender.html" id="calendarLink">📅 Zum Kalender</a>
       <a href="admin.html" id="adminLink">🔧 Admin-Bereich</a>
       <a href="kalender.html#reminderForm" id="reminderLink">🔔 Erinnerung erhalten</a>
+      <a href="alle-termine.html" id="alleLink">📋 Alle Termine anzeigen</a>
     </div>
+
+    <!-- ⏳ Vorschau -->
+    <div class="preview">
+      <h3>⏳ Nächste Gottesdienste:</h3>
+      <div id="termineVorschau">Keine Termine gespeichert.</div>
+    </div>
+
+    <!-- 📩 Footer -->
+    <footer>
+      &copy; 2025 Kirche Schweiz | Alle Rechte vorbehalten
+    </footer>
   </div>
 
   <!-- 📜 Zentrales JavaScript -->
-  <script src="javascript/main.js" defer></script>
+  <script src="javascript/main.js"></script>
 </body>
 </html>
